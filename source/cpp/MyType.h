@@ -7,7 +7,7 @@
 namespace MetaTypeNamespace
 {
     Q_NAMESPACE
-enum Type {
+enum Type : int {
         UnknownType = 0, Bool = 1, Int = 2, UInt = 3, LongLong = 4, ULongLong = 5,
         Double = 6, Long = 32, Short = 33, Char = 34, ULong = 35, UShort = 36,
         UChar = 37, Float = 38,

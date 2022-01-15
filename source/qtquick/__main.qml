@@ -1,18 +1,19 @@
-import QtQuick 2.12
-import QtQuick.Window 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.5
+import QtQuick 2.14
+import QtQuick.Window 2.14
+import QtQuick.Layouts 1.14
+import QtQuick.Controls 2.14
 import App.Class 0.1 as Class
-import "Global.js" as Global
-
+import "delegate"
 Window {
     id: root
     visible: true
-    width: 640
-    height: 400
+    width: 800
+    height: 500
+    minimumWidth: 300
+    minimumHeight: 200
     title: "EDI-TABLEVIEW"
     color: "#aaa"
-    RowLayout {
+  RowLayout {
         anchors.fill: parent
         spacing: 5
         CellView {
@@ -22,10 +23,10 @@ Window {
         }
         CellView {
             Layout.fillHeight: true
-            Layout.fillWidth: true
             model:  tableModel
-            delegate: CellDisplayText {
+            delegate: CellText {
                 value: model.cellData
+                readOnly: true
             }
         }
         ColumnLayout {
@@ -38,12 +39,12 @@ Window {
                 text: "Test data"
                 onClicked: tableModel.testData()
             }
-            Item { Layout.fillHeight: true }
+            Item { Layout.fillHeight: true } // VerticalStretch
         }
     }
 
     Class.TableModel {
         id: tableModel
     }
-    Component.onCompleted: Global.mainWindow = root
+
 }

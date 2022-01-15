@@ -6,19 +6,21 @@ ListView {
     id:root
     property var len : [200,200]
     property var count : root.model.length
-    property int defaultWidth : 100
+    property real defaultWidth : 150
+    property real minimalWidth : 50
     signal  columnWidthChanged
 
     orientation: ListView.Horizontal
     clip: true
     delegate: HeaderDelegate {
-        id: thedelegate
-        width: root.len[index]
-        height: root.height
+        id: header
+//        width:  root.len[index] ?? defaultWidth // only Qt>= 5.15
+        width:  root.len[index] ? root.len[index] : defaultWidth
+        height:  root.height
         color:"#eec"
         text: "<b>"+modelData+"</b>"
         Rectangle {
-            id: handle
+            id: resizeHandle
             color: Qt.darker(parent.color, 1.05)
             height: parent.height
             width: 10
@@ -32,9 +34,9 @@ ListView {
                 cursorShape: Qt.SizeHorCursor
                 onMouseXChanged: {
                     if (drag.active) {
-                        var newWidth = thedelegate.width + mouseX
-                        if (newWidth >= 50) {
-                            thedelegate.width = newWidth
+                        var newWidth = header.width + mouseX
+                        if (newWidth >= minimalWidth) {
+                            header.width = newWidth
                             root.len[index] = newWidth
                             root.columnWidthChanged()
                         }
